@@ -51,21 +51,38 @@ if (livro == null)
 
 **3.2)** O que o atributo `[ApiController]` faz? O que acontece se você enviar um JSON com o campo obrigatório vazio?
 
+Ele automatiza comportamentos para simplificar a criação de APIs. Na API Livraria, ele reduz a quantidade de código, mas mantém a segurança e a padronização.
+Se um JSON for enviado com campo obrigatório vazio, vai retornar status code 400 Bad Request.
+
 **3.3)** Por que o método `GetById` retorna `NotFound()` em vez de retornar `null`? Qual a diferença para o cliente da API?
+
+NotFound é mais assertivo na interpretação. Se retornasse null, a margem de interpretação disso seria muito maior, enquanto que notfound é mais direcionado, evidenciando que o recurso buscado não existe. No GET por ID da API, o notfound aparece quando o usuário tenta buscar um id que não existe, muito mais coerente e esclarecedor do que retornar null.
 
 ### Sobre Entity Framework Core
 
 **3.4)** O que é o Change Tracker do EF Core? Explique o que acontece internamente quando você chama `_ctx.SeuDbSet.Add(objeto)` seguido de `SaveChangesAsync()`.
 
+É o mecanismo que rastreia mudanças na memória. Mais especificamente, nas entidades em memória. Ele, basicamente, marca essa entidade quando o método é chamado, mas sem alterar o banco. Até que, quando o segundo método SaveChangesAsync é chamado, o banco é alterado. Com isso, o desenvolvimento fica assíncrono, ou seja, tudo vai sendo salvo em memória mas só o EF Core gerencia e sincroniza as alterações.
+
 **3.5)** Qual a diferença entre `FindAsync(id)` e `ToListAsync()`? Qual SQL cada um gera?
 
+FindAssync(id) é usado para buscar um registro específico, passando o id como parâmetro de busca, enquanto que o ToListAsync() busca todos os registros da tabela. O segundo método não tem um filtro como o id, então ele retorna uma quantidade de dados muito maior. O primeiro comando é um WHERE passando o id enquanto que o segundo comando é um SELECT * FROM.
+
 **3.6)** Por que usamos `EntityState.Modified` no PUT ao invés de buscar o objeto primeiro e alterar campo a campo?
+
+Porque o EntityState.Modified passa para o EF uma alteração na entidade sem ter que fazer uma busca antes. O EF então, de forma automática, gera um UPDATE no banco com o que foi passado. Parece bem simples, mas isso gera ganho de performance em termos de quantidade de código.
 
 ### Sobre Mensageria
 
 **3.7)** Qual a diferença entre comunicação síncrona e assíncrona? Dê um exemplo real (fora do projeto) de cada uma.
 
+Como os próprios nomes nos permite intuir, se trata de eventos que, em um caso, faz parte de uma sequência de ações, enquanto que em outro, não é dependente disso. Ou seja, comunicação síncrona segue uma ordem onde existe uma requisição e uma resposta é obrigatória antes da execução ou processamento continuar. Já na comunicação assíncrona, essa sequência não é necessária. A execução continua a acontecer, independente da resposta ser imediata ou não. No projeto isso foi visto nas filas do RabbitMQ, onde as requisições são assíncronas e independentes. 
+Trazendo para o mundo real, podemos comparar os dois tipos de comunicação com um serviço de e-mail e um telefonema. Enquanto que o telefonema retrata uma comunicação síncrona, onde uma pessoa aguarda a resposta da outra antes de continuar o assunto, no e-mail isso não acontece, haja vista que permite respostas diferidas, indenpendente de tempo. 
+Outro exemplo prático é a requisição HTTP padrão ao consultar um site, onde as ações seguintes dependem da resposta. Já no caso de assincronicidade, temos como exemplo uma mensagem enviada para processamento em segundo plano. 
+
 **3.8)** O que é o ACK (Acknowledge) no RabbitMQ? O que acontece se o Consumer processar a mensagem mas NÃO enviar o ACK?
+
+É um recurso para confirmar que uma mensagem foi processada pelo consumer. Quando isso acontece, a mensagem é removida da fila. Se um consumer não envia o ACK, O RabbitMQ entende como falha de processamento, podendo reenviar a mensagem para outro consumer, resguardando a perda de mensagens e de dados.
 
 **3.9)** Por que o `RabbitMqConsumer` herda de `BackgroundService` e não de `ControllerBase`? Qual a diferença de ciclo de vida?
 
