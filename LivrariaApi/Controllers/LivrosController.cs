@@ -34,7 +34,6 @@ public class LivrosController : ControllerBase
 
         return Ok(livro);
     }
-
     [HttpPost]
     public async Task<IActionResult> Create(Livro livro)
     {
@@ -49,15 +48,17 @@ public class LivrosController : ControllerBase
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[RabbitMQ] Erro ao publicar mensagem: {ex.Message}");
+                Console.WriteLine("[RABBITMQ ERROR]");
+                Console.WriteLine(ex.Message);
             }
 
             return CreatedAtAction(nameof(GetById), new { id = livro.Id }, livro);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[POST] Erro ao salvar livro: {ex.Message}");
-            return StatusCode(500, "Ocorreu um erro ao cadastrar o livro.");
+            Console.WriteLine("[POST LIVRO ERROR]");
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, "Erro ao criar livro");
         }
     }
 
@@ -70,6 +71,15 @@ public class LivrosController : ControllerBase
         _ctx.Entry(livro).State = EntityState.Modified;
         await _ctx.SaveChangesAsync();
 
+        try
+        {
+            RabbitMqProducer.PublishUpdate(livro);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("[RABBITMQ UPDATE ERROR]");
+            Console.WriteLine(ex.Message);
+        }
         return NoContent();
     }
 

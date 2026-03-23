@@ -14,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddHostedService<RabbitMqConsumer>();
 
+builder.Services.AddHostedService<RabbitMqUpdateConsumer>();
+
 var app = builder.Build();
 
 app.UseSwagger();

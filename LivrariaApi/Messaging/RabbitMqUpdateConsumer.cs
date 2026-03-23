@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LivrariaApi.Messaging;
 
-public class RabbitMqConsumer : BackgroundService
+public class RabbitMqUpdateConsumer : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -14,7 +14,7 @@ public class RabbitMqConsumer : BackgroundService
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
 
-            var queueName = "livro-criado";
+            var queueName = "livro-atualizado";
 
             channel.QueueDeclare(
                 queue: queueName,
@@ -32,11 +32,10 @@ public class RabbitMqConsumer : BackgroundService
                 var message = Encoding.UTF8.GetString(body);
 
                 Console.WriteLine("=================================");
-                Console.WriteLine("[CONSUMER] NOVO LIVRO CRIADO");
+                Console.WriteLine("[CONSUMER] LIVRO ATUALIZADO");
                 Console.WriteLine("[EMAIL SIMULADO]");
                 Console.WriteLine($"Mensagem recebida: {message}");
-                Console.WriteLine("Enviando email para administrador...");
-                Console.WriteLine("Livro cadastrado com sucesso!");
+                Console.WriteLine("Notificação de atualização enviada!");
                 Console.WriteLine("=================================");
 
                 channel.BasicAck(ea.DeliveryTag, false);
@@ -52,7 +51,7 @@ public class RabbitMqConsumer : BackgroundService
         }
         catch (Exception ex)
         {
-            Console.WriteLine("[RABBITMQ CONSUMER ERROR - livro-criado]");
+            Console.WriteLine("[RABBITMQ CONSUMER ERROR - livro-atualizado]");
             Console.WriteLine(ex.Message);
 
             await Task.Delay(Timeout.Infinite, stoppingToken);

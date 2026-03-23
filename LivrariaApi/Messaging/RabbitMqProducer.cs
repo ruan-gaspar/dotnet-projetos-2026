@@ -37,4 +37,31 @@ public static class RabbitMqProducer
             body: body
         );
     }
+    public static void PublishUpdate<T>(T message)
+    {
+        var factory = new ConnectionFactory() { HostName = "localhost" };
+
+        using var connection = factory.CreateConnection();
+        using var channel = connection.CreateModel();
+
+        var queueName = "livro-atualizado";
+
+        channel.QueueDeclare(
+            queue: queueName,
+            durable: false,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null
+        );
+
+        var json = JsonSerializer.Serialize(message);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        channel.BasicPublish(
+            exchange: "",
+            routingKey: queueName,
+            basicProperties: null,
+            body: body
+        );
+    }
 }
