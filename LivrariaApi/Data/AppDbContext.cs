@@ -10,8 +10,8 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Livro> Livros { get; set; }
-    public ICollection<Emprestimo>? Emprestimos { get; set; }
+    public DbSet<Livro> Livros { get; set; } = null!;
+    public DbSet<Emprestimo>? Emprestimos { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

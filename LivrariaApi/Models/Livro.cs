@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LivrariaApi.Models;
@@ -23,7 +24,8 @@ public class Livro
 
     [Required]
     public int AnoPublicacao { get; set; }
-
+  
+    [JsonIgnore]
     public ICollection<Emprestimo>? Emprestimos { get; set; }
 
 }
