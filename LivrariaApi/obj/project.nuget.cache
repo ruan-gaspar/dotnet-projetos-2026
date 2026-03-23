@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2+1SyjFnaNc=",
+  "dgSpecHash": "EwuO+0EGay4=",
   "success": true,
   "projectFilePath": "/home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/LivrariaApi.csproj",
   "expectedPackageFiles": [
     "/home/ruan/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
-    "/home/ruan/.nuget/packages/microsoft.aspnetcore.openapi/9.0.13/microsoft.aspnetcore.openapi.9.0.13.nupkg.sha512",
     "/home/ruan/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "/home/ruan/.nuget/packages/microsoft.build.framework/17.8.3/microsoft.build.framework.17.8.3.nupkg.sha512",
     "/home/ruan/.nuget/packages/microsoft.build.locator/1.7.8/microsoft.build.locator.1.7.8.nupkg.sha512",

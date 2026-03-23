@@ -7,7 +7,6 @@
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/LivrariaApi.dll
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/LivrariaApi.pdb
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/Humanizer.dll
-/home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/Microsoft.Build.Locator.dll
 /home/ruan/Área de Trabalho/dotnet-projetos-2026/LivrariaApi/bin/Debug/net9.0/Microsoft.CodeAnalysis.dll
