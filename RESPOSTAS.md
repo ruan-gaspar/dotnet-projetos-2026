@@ -77,7 +77,9 @@ Porque o EntityState.Modified passa para o EF uma alteração na entidade sem te
 **3.7)** Qual a diferença entre comunicação síncrona e assíncrona? Dê um exemplo real (fora do projeto) de cada uma.
 
 Como os próprios nomes nos permite intuir, se trata de eventos que, em um caso, faz parte de uma sequência de ações, enquanto que em outro, não é dependente disso. Ou seja, comunicação síncrona segue uma ordem onde existe uma requisição e uma resposta é obrigatória antes da execução ou processamento continuar. Já na comunicação assíncrona, essa sequência não é necessária. A execução continua a acontecer, independente da resposta ser imediata ou não. No projeto isso foi visto nas filas do RabbitMQ, onde as requisições são assíncronas e independentes. 
+
 Trazendo para o mundo real, podemos comparar os dois tipos de comunicação com um serviço de e-mail e um telefonema. Enquanto que o telefonema retrata uma comunicação síncrona, onde uma pessoa aguarda a resposta da outra antes de continuar o assunto, no e-mail isso não acontece, haja vista que permite respostas diferidas, indenpendente de tempo. 
+
 Outro exemplo prático é a requisição HTTP padrão ao consultar um site, onde as ações seguintes dependem da resposta. Já no caso de assincronicidade, temos como exemplo uma mensagem enviada para processamento em segundo plano. 
 
 **3.8)** O que é o ACK (Acknowledge) no RabbitMQ? O que acontece se o Consumer processar a mensagem mas NÃO enviar o ACK?
@@ -85,6 +87,10 @@ Outro exemplo prático é a requisição HTTP padrão ao consultar um site, onde
 É um recurso para confirmar que uma mensagem foi processada pelo consumer. Quando isso acontece, a mensagem é removida da fila. Se um consumer não envia o ACK, O RabbitMQ entende como falha de processamento, podendo reenviar a mensagem para outro consumer, resguardando a perda de mensagens e de dados.
 
 **3.9)** Por que o `RabbitMqConsumer` herda de `BackgroundService` e não de `ControllerBase`? Qual a diferença de ciclo de vida?
+
+Porque o RabbitMQConsumer precisa ficar rodando de forma contínua, enquanto que o ControllerBase só entra em ação quando chamado pelo cliente. Em outras palavras, O RabbitMQConsumer tem execução contínua uma vez que a aplicação está rodando, já o controller por sua vez, é executado sob demanda. 
+
+O RabbitMQConsumer precisa escutar filas de mensagens e o ControllerBase lida com requisições HTTP. 
 
 **3.10)** Se o RabbitMQ estiver fora do ar no momento do POST, o que acontece? O produto é salvo no Oracle? A API retorna erro? Sugira uma melhoria para tratar esse caso.
 
