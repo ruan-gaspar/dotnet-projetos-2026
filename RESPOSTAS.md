@@ -6,6 +6,49 @@ Responder **no próprio repositório** (em um arquivo `RESPOSTAS.md` ou `RESPOST
 
 **3.1)** Explique a diferença entre os códigos HTTP 200, 201, 204 e 404. Em qual situação cada um é retornado no seu Controller?
 
+**Aqui, apresento uma definição de cada status de acordo com o site devmedia.com.br. Em seguida, mostro a implementação com um exemplo no código:**
+
+**200 Ok:** requisição foi bem sucedida, ou seja, foi processada e bem atendida, retornando informação para quem solicitou.
+
+#### GET TODOS:
+
+```bash
+return Ok(livros);
+```
+
+- No controller, quando uma requisição é atendida e retorna dados, a resposta é 200. Isso vale para o GET por ID também.  
+
+**201 Created:** esse mostra que a requisição foi bem atendida e um ou mais recursos foram criados em decorrência daquela ação.
+
+#### POST:
+
+```bash
+return CreatedAtAction(...)
+```
+
+- No código, isso é implementado para mostrar que os dados de novo livro foram criados com sucesso, retornando o que foi criado com o ID.
+
+**204 No Content:** esse código serve para dizer que o server não tem um conteúdo para resposta, mas os cabeçalhos podem ser úteis.
+
+#### DELETE:
+
+```bash
+return NoContent();
+```
+
+- No controller, isso serve para mostrar que a ação funcionou mas não tenho nada para mostrar. Também tem no PUT.
+
+**404 Not Found:** mostra que o server não retornou uma resposta adequada para o que foi requisitado, ou seja, o recurso buscado não foi encontrado.
+
+#### GET ID:
+
+```bash
+if (livro == null)
+    return NotFound();
+```
+
+- Nesse if, retorna 200 quando encontra o livro pelo ID passado ou 404 quando não encontra. 
+
 **3.2)** O que o atributo `[ApiController]` faz? O que acontece se você enviar um JSON com o campo obrigatório vazio?
 
 **3.3)** Por que o método `GetById` retorna `NotFound()` em vez de retornar `null`? Qual a diferença para o cliente da API?
