@@ -2,6 +2,7 @@ using LivrariaApi.Data;
 using LivrariaApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LivrariaApi.Messaging;
 
 namespace LivrariaApi.Controllers;
 
@@ -37,10 +38,27 @@ public class LivrosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Livro livro)
     {
-        _ctx.Livros.Add(livro);
-        await _ctx.SaveChangesAsync();
+        try
+        {
+            _ctx.Livros.Add(livro);
+            await _ctx.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetById), new { id = livro.Id }, livro);
+            try
+            {
+                RabbitMqProducer.Publish(livro);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[RabbitMQ] Erro ao publicar mensagem: {ex.Message}");
+            }
+
+            return CreatedAtAction(nameof(GetById), new { id = livro.Id }, livro);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[POST] Erro ao salvar livro: {ex.Message}");
+            return StatusCode(500, "Ocorreu um erro ao cadastrar o livro.");
+        }
     }
 
     [HttpPut("{id}")]
