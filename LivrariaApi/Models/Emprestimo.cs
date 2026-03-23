@@ -3,27 +3,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LivrariaApi.Models;
 
-[Table("Livros")]
-public class Livro
+[Table("Emprestimos")]
+public class Emprestimo
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    [StringLength(150)]
-    public string Titulo { get; set; } = string.Empty;
+    public int LivroId { get; set; }
+
+    [ForeignKey("LivroId")]
+    public Livro? Livro { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Autor { get; set; } = string.Empty;
+    public string NomeLeitor { get; set; } = string.Empty;
 
     [Required]
-    public decimal Preco { get; set; }
+    public DateTime DataEmprestimo { get; set; }
 
     [Required]
-    public int AnoPublicacao { get; set; }
-
-    public ICollection<Emprestimo>? Emprestimos { get; set; }
-
+    public DateTime DataDevolucaoPrevista { get; set; }
 }

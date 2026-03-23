@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Livro> Livros { get; set; }
+    public ICollection<Emprestimo>? Emprestimos { get; set; }
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 	base.OnModelCreating(modelBuilder);
