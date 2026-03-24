@@ -29,8 +29,6 @@ Além disso, foram implementadas:
 - Uso correto de status HTTP
 - Relacionamento entre entidades
 
----
-
 # Arquitetura
 
 ```bash
@@ -73,12 +71,6 @@ Além disso, foram implementadas:
 ├── README.md
 └── RESPOSTAS.md
 ```
----
-# Autor
-### Ruan Nunes Gaspar
-### RM 559567
-
----
 
 ## Tecnologias
 - .NET 9
@@ -88,7 +80,6 @@ Além disso, foram implementadas:
 - Swagger 
 - Docker
 
----
 # Como rodar
 ## Clonar o repositório
 
@@ -138,7 +129,7 @@ Aqui criamos um novo livro com as informações passadas no objeto json: "titulo
 
 ![POST](./prints/POST-201-02.png)
 Recebemos status 201 CREATED com um ID gerado (1) seguido das informações do livro criado.
----
+
 
 ## GET - Todos
 ![GET-ALL](./prints/GET-TODOS-01.png)
