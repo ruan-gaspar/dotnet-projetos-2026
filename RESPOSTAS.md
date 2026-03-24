@@ -94,3 +94,5 @@ O RabbitMQConsumer precisa escutar filas de mensagens e o ControllerBase lida co
 
 **3.10)** Se o RabbitMQ estiver fora do ar no momento do POST, o que acontece? O produto é salvo no Oracle? A API retorna erro? Sugira uma melhoria para tratar esse caso.
 
+Se estiver fora do ar, o produto será salvo no Oracle, devido ao SaveChangesAsync() que é executado antes de se tentar enviar a mensagem. Apesar de a publicação no RabbitMQ Falhar, o erro cai no try/catch, retornando status code 201.
+Como melhoria, poderia ser implementado logs melhores, pra garantir o envio posterior da mensagem. Retry também faz sentido nesse caso para reprocessamento das mensagens que falharam, evitando perda de dados e sobrecarga do consumer. Nesse caso, usando uma fila Dead-Letter-Exchange.
